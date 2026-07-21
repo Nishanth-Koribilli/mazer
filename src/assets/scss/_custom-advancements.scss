@@ -1,0 +1,211 @@
+/* ==========================================================================
+   Mazer Custom CSS Advancements & Modern Design Tokens
+   ========================================================================== */
+
+:root {
+  --mazer-primary: #6366f1;
+  --mazer-primary-hover: #4f46e5;
+  --mazer-secondary: #64748b;
+  --mazer-success: #10b981;
+  --mazer-info: #06b6d4;
+  --mazer-warning: #f59e0b;
+  --mazer-danger: #ef4444;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --gradient-success: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  --gradient-warning: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  --gradient-danger:  linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+  --gradient-info:    linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  --gradient-purple:  linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 16px -2px rgba(99, 102, 241, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 16px 32px -4px rgba(99, 102, 241, 0.14), 0 4px 12px rgba(0, 0, 0, 0.06);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-blur: blur(12px);
+}
+
+html[data-bs-theme="dark"] {
+  --glass-bg: rgba(30, 41, 59, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --shadow-md: 0 8px 20px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 18px 36px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Card Advancements & Animations --- */
+.card {
+  border-radius: 1rem !important;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html[data-bs-theme="dark"] .card {
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.glass-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border) !important;
+}
+
+/* --- Advanced Stats Icon Styling --- */
+.stats-icon {
+  width: 3.25rem !important;
+  height: 3.25rem !important;
+  border-radius: 0.85rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.stats-icon i {
+  font-size: 1.5rem;
+}
+
+.card:hover .stats-icon {
+  transform: scale(1.1) rotate(4deg);
+}
+
+.stats-icon.purple {
+  background: var(--gradient-purple) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
+}
+
+.stats-icon.blue {
+  background: var(--gradient-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.stats-icon.green {
+  background: var(--gradient-success) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.stats-icon.red {
+  background: var(--gradient-danger) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+/* --- Live Status Badges & Animations --- */
+.badge-pill-custom {
+  border-radius: 50rem;
+  padding: 0.4em 0.85em;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.live-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--mazer-success);
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-ring 1.8s infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* --- Dynamic Skeleton Loader --- */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(240,240,240,0.6) 25%, rgba(225,225,225,0.9) 50%, rgba(240,240,240,0.6) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+html[data-bs-theme="dark"] .skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(50,60,80,0.4) 25%, rgba(70,80,105,0.6) 50%, rgba(50,60,80,0.4) 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* --- Advanced Button Styles --- */
+.btn-gradient-primary {
+  background: var(--gradient-primary) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: all 0.25s ease;
+}
+
+.btn-gradient-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
+}
+
+/* --- Table Enhancements --- */
+.table-custom {
+  border-collapse: separate;
+  border-spacing: 0 0.4rem;
+}
+
+.table-custom tbody tr {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  border-radius: 8px;
+}
+
+.table-custom tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.04);
+}
+
+html[data-bs-theme="dark"] .table-custom tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* --- Custom Scrollbars --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
+}

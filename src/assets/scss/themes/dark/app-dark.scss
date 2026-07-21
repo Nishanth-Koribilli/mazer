@@ -54,5 +54,6 @@ html[data-bs-theme="dark"] {
     
     // Additional dark-mode CSS
     @import "./mazer-dark";
+    @import "./../../custom-advancements";
     @import "~bootstrap/scss/utilities";
 }

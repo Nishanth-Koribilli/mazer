@@ -1,0 +1,53 @@
+{
+  "monthly": {
+    "categories": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "series": [
+      {
+        "name": "Europe Traffic",
+        "data": [12, 19, 27, 34, 45, 58, 63, 72, 68, 79, 85, 94]
+      },
+      {
+        "name": "America Traffic",
+        "data": [25, 32, 41, 48, 56, 67, 78, 84, 89, 95, 102, 115]
+      },
+      {
+        "name": "Asia Traffic",
+        "data": [18, 26, 35, 42, 53, 61, 74, 81, 88, 92, 98, 108]
+      }
+    ]
+  },
+  "weekly": {
+    "categories": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    "series": [
+      {
+        "name": "Europe Traffic",
+        "data": [45, 52, 60, 58, 65, 40, 35]
+      },
+      {
+        "name": "America Traffic",
+        "data": [70, 75, 82, 80, 90, 60, 55]
+      },
+      {
+        "name": "Asia Traffic",
+        "data": [50, 55, 63, 68, 74, 45, 42]
+      }
+    ]
+  },
+  "daily": {
+    "categories": ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
+    "series": [
+      {
+        "name": "Europe Traffic",
+        "data": [15, 8, 30, 55, 62, 40]
+      },
+      {
+        "name": "America Traffic",
+        "data": [30, 20, 45, 85, 95, 70]
+      },
+      {
+        "name": "Asia Traffic",
+        "data": [25, 35, 50, 60, 68, 45]
+      }
+    ]
+  }
+}

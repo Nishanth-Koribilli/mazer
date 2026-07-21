@@ -5,18 +5,35 @@
 
 {% block styles %}
 <link rel="stylesheet" href="/assets/scss/iconly.scss">
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
 {% endblock %}
 
 {% block content %}
-<div class="page-heading">
-    <h3>Profile Statistics</h3>
+<div class="page-heading d-flex justify-content-between align-items-center flex-wrap">
+    <div>
+        <h3 class="mb-1">Analytics & Endpoint Metrics</h3>
+        <p class="text-subtitle text-muted mb-0">
+            <span class="live-indicator"></span> Dynamic Endpoint Data Synchronized
+        </p>
+    </div>
+    <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
+        <select id="select-timeframe" class="form-select form-select-sm shadow-sm" style="width: 140px;">
+            <option value="monthly" selected>Monthly</option>
+            <option value="weekly">Weekly</option>
+            <option value="daily">Daily</option>
+        </select>
+        <button id="btn-refresh-dashboard" class="btn btn-sm btn-gradient-primary d-flex align-items-center gap-2 px-3 shadow-sm">
+            <i class="bi bi-arrow-clockwise fs-6"></i>
+            <span>Refresh Endpoint</span>
+        </button>
+    </div>
 </div> 
 <div class="page-content"> 
     <section class="row">
         <div class="col-12 col-lg-9">
             <div class="row">
                 <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
+                    <div class="card glass-card">
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
@@ -26,14 +43,15 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Profile Views</h6>
-                                    <h6 class="font-extrabold mb-0">112.000</h6>
+                                    <h6 id="val-profile-views" class="font-extrabold mb-0">112.000</h6>
+                                    <span id="badge-profile-trend" class="badge bg-light-success text-success badge-pill-custom mt-1">+14.2%</span>
                                 </div>
                             </div> 
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card"> 
+                    <div class="card glass-card"> 
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
@@ -43,14 +61,15 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Followers</h6>
-                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                    <h6 id="val-followers" class="font-extrabold mb-0">183.000</h6>
+                                    <span id="badge-followers-trend" class="badge bg-light-success text-success badge-pill-custom mt-1">+8.7%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
+                    <div class="card glass-card">
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
@@ -60,14 +79,14 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Following</h6>
-                                    <h6 class="font-extrabold mb-0">80.000</h6>
+                                    <h6 id="val-following" class="font-extrabold mb-0">80.000</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
+                    <div class="card glass-card">
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
@@ -77,7 +96,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Saved Post</h6>
-                                    <h6 class="font-extrabold mb-0">112</h6>
+                                    <h6 id="val-saved-posts" class="font-extrabold mb-0">112</h6>
                                 </div>
                             </div>
                         </div>
@@ -86,9 +105,10 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Profile Visit</h4>
+                    <div class="card glass-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Traffic & Visits Analytics</h4>
+                            <span class="badge bg-light-primary text-primary badge-pill-custom">JSON Endpoint Stream</span>
                         </div>
                         <div class="card-body">
                             <div id="chart-profile-visit"></div>
@@ -97,153 +117,30 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-xl-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Profile Visit</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="d-flex align-items-center">
-                                        <svg class="bi text-primary" width="32" height="32" fill="blue"
-                                            style="width:10px">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                        </svg>
-                                        <h5 class="mb-0 ms-3">Europe</h5>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <h5 class="mb-0 text-end">862</h5>
-                                </div>
-                                <div class="col-12">
-                                    <div id="chart-europe"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="d-flex align-items-center">
-                                        <svg class="bi text-success" width="32" height="32" fill="blue"
-                                            style="width:10px">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                        </svg>
-                                        <h5 class="mb-0 ms-3">America</h5>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <h5 class="mb-0 text-end">375</h5>
-                                </div>
-                                <div class="col-12">
-                                    <div id="chart-america"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="d-flex align-items-center">
-                                        <svg class="bi text-success" width="32" height="32" fill="blue"
-                                            style="width:10px">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                        </svg>
-                                        <h5 class="mb-0 ms-3">India</h5>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <h5 class="mb-0 text-end">625</h5>
-                                </div>
-                                <div class="col-12">
-                                    <div id="chart-india"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="d-flex align-items-center">
-                                        <svg class="bi text-danger" width="32" height="32" fill="blue"
-                                            style="width:10px">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                        </svg>
-                                        <h5 class="mb-0 ms-3">Indonesia</h5>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <h5 class="mb-0 text-end">1025</h5>
-                                </div>
-                                <div class="col-12">
-                                    <div id="chart-indonesia"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-xl-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Latest Comments</h4>
+                <div class="col-12">
+                    <div class="card glass-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Recent Endpoint Transactions</h4>
+                            <span class="text-muted small">Live Data Feed</span>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover table-lg">
+                                <table class="table table-custom align-middle mb-0">
                                     <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Comment</th>
+                                        <tr class="text-muted small">
+                                            <th>CUSTOMER / ITEM</th>
+                                            <th>TRANSACTION ID</th>
+                                            <th>DATE</th>
+                                            <th>AMOUNT</th>
+                                            <th>STATUS</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="table-transactions-body">
+                                        <!-- Dynamically populated from JSON endpoint -->
                                         <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="assets/static/images/faces/5.jpg">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Si Cantik</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Congratulations on your graduation!</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="assets/static/images/faces/2.jpg">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Si Ganteng</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Wow amazing design! Can you make another tutorial for
-                                                    this design?</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="assets/static/images/faces/8.jpg">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Singh Eknoor</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">What a stunning design! You are so talented and creative!</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="assets/static/images/faces/3.jpg">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Rani Jhadav</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">I love your design! It’s so beautiful and unique! How did you learn to do this?</p>
+                                            <td colspan="5" class="text-center py-4 text-muted">
+                                                <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                                                Fetching transaction records...
                                             </td>
                                         </tr>
                                     </tbody>
@@ -255,70 +152,70 @@
             </div>
         </div>
         <div class="col-12 col-lg-3">
-            <div class="card">
+            <div class="card glass-card">
                 <div class="card-body py-4 px-4">
                     <div class="d-flex align-items-center">
-                        <div class="avatar avatar-xl">
+                        <div class="avatar avatar-md">
                             <img src="assets/static/images/faces/1.jpg" alt="Face 1">
                         </div>
-                        <div class="ms-3 name">
-                            <h5 class="font-bold">John Duck</h5>
+                        <div class="ms-3 name flex-grow-1 overflow-hidden">
+                            <h5 class="font-bold mb-0">John Duck</h5>
                             <h6 class="text-muted mb-0">@johnducky</h6>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card glass-card">
                 <div class="card-header">
-                    <h4>Recent Messages</h4>
+                    <h4 class="mb-0">System Health</h4>
+                </div>
+                <div class="card-body" id="quick-stats-container">
+                    <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom border-light">
+                        <span class="text-muted small">Server Uptime</span>
+                        <span class="badge bg-light-success text-success font-semibold">99.98%</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom border-light">
+                        <span class="text-muted small">API Latency</span>
+                        <span class="badge bg-light-info text-info font-semibold">24 ms</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card glass-card">
+                <div class="card-header">
+                    <h4 class="mb-0">Recent Messages</h4>
                 </div>
                 <div class="card-content pb-4">
                     <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
+                        <div class="avatar avatar-md">
                             <img src="assets/static/images/faces/4.jpg">
                         </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Hank Schrader</h5>
-                            <h6 class="text-muted mb-0">@johnducky</h6>
+                        <div class="name ms-4 flex-grow-1 overflow-hidden">
+                            <h5 class="mb-1 text-truncate">Hank Schrader</h5>
+                            <h6 class="text-muted text-truncate mb-0">@johnducky</h6>
                         </div>
                     </div>
                     <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
+                        <div class="avatar avatar-md">
                             <img src="assets/static/images/faces/5.jpg">
                         </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Dean Winchester</h5>
-                            <h6 class="text-muted mb-0">@imdean</h6>
-                        </div>
-                    </div>
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="assets/static/images/faces/1.jpg">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">John Dodol</h5>
-                            <h6 class="text-muted mb-0">@dodoljohn</h6>
+                        <div class="name ms-4 flex-grow-1 overflow-hidden">
+                            <h5 class="mb-1 text-truncate">Dean Winchester</h5>
+                            <h6 class="text-muted text-truncate mb-0">@imdean</h6>
                         </div>
                     </div>
                     <div class="px-4">
-                        <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start Conversation</button>
+                        <button class='btn btn-block btn-gradient-primary font-bold mt-3 w-100'>Start Conversation</button>
                     </div>
                 </div>
             </div> 
-            <div class="card">
-                <div class="card-header">
-                    <h4>Visitors Profile</h4>
-                </div>
-                <div class="card-body">
-                    <div id="chart-visitors-profile"></div>
-                </div>
-            </div>
         </div>
     </section>
 </div>
 {% endblock %}
+
 {% block js %}
-<!-- Need: Apexcharts -->
+<!-- Apexcharts & Toastify -->
 <script src="assets/extensions/apexcharts/apexcharts.min.js"></script>
-<script src="assets/static/js/pages/dashboard.js"></script>
+<script src="assets/extensions/toastify-js/src/toastify.js"></script>
+<script src="assets/static/js/pages/dynamic-dashboard.js"></script>
 {% endblock %}

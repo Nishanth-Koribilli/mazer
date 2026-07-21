@@ -1,0 +1,54 @@
+{
+  "status": "success",
+  "timestamp": "2026-07-21T16:20:00Z",
+  "timeframe": "monthly",
+  "metrics": {
+    "profile_views": {
+      "value": "112,450",
+      "numeric": 112450,
+      "change": "+14.2%",
+      "trend": "up",
+      "label": "Profile Views"
+    },
+    "followers": {
+      "value": "183,920",
+      "numeric": 183920,
+      "change": "+8.7%",
+      "trend": "up",
+      "label": "Followers"
+    },
+    "following": {
+      "value": "80,115",
+      "numeric": 80115,
+      "change": "+2.1%",
+      "trend": "up",
+      "label": "Following"
+    },
+    "saved_posts": {
+      "value": "1,248",
+      "numeric": 1248,
+      "change": "-3.4%",
+      "trend": "down",
+      "label": "Saved Posts"
+    },
+    "monthly_revenue": {
+      "value": "$48,650.00",
+      "numeric": 48650,
+      "change": "+19.8%",
+      "trend": "up",
+      "label": "Monthly Revenue"
+    },
+    "active_subscribers": {
+      "value": "4,890",
+      "numeric": 4890,
+      "change": "+12.5%",
+      "trend": "up",
+      "label": "Active Pro Users"
+    }
+  },
+  "quick_stats": [
+    { "name": "Server Uptime", "value": "99.98%", "status": "success" },
+    { "name": "API Latency", "value": "24 ms", "status": "info" },
+    { "name": "Storage Used", "value": "64.2 GB / 100 GB", "status": "warning" }
+  ]
+}

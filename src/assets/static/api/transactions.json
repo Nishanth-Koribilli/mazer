@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TXN-9021",
+    "user": "Enterprise Cloud Subscription",
+    "customer": "Acme Corp",
+    "avatar": "assets/static/images/faces/1.jpg",
+    "date": "2026-07-21",
+    "amount": "$2,450.00",
+    "status": "Completed",
+    "badge_class": "bg-light-success text-success"
+  },
+  {
+    "id": "TXN-9020",
+    "user": "Pro Plan Upgrade",
+    "customer": "DesignCraft Studio",
+    "avatar": "assets/static/images/faces/2.jpg",
+    "date": "2026-07-21",
+    "amount": "$299.00",
+    "status": "Completed",
+    "badge_class": "bg-light-success text-success"
+  },
+  {
+    "id": "TXN-9019",
+    "user": "API Usage Add-on",
+    "customer": "Nexus Tech",
+    "avatar": "assets/static/images/faces/3.jpg",
+    "date": "2026-07-20",
+    "amount": "$150.00",
+    "status": "Processing",
+    "badge_class": "bg-light-warning text-warning"
+  },
+  {
+    "id": "TXN-9018",
+    "user": "Domain Registration",
+    "customer": "Starlight Media",
+    "avatar": "assets/static/images/faces/4.jpg",
+    "date": "2026-07-20",
+    "amount": "$45.00",
+    "status": "Completed",
+    "badge_class": "bg-light-success text-success"
+  },
+  {
+    "id": "TXN-9017",
+    "user": "Custom Integration License",
+    "customer": "Apex Solutions",
+    "avatar": "assets/static/images/faces/5.jpg",
+    "date": "2026-07-19",
+    "amount": "$1,200.00",
+    "status": "Failed",
+    "badge_class": "bg-light-danger text-danger"
+  }
+]

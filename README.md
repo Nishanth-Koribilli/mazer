@@ -1,136 +1,141 @@
-<h1 align="center">Mazer Dashboard</h1>
+# Task 3 – Mazer Front-End Skill Assessment & Customization Submission
 
-![Mazer Screenshot](https://user-images.githubusercontent.com/45036724/167523601-9d20fb17-1989-488f-b619-cb53c0db8898.png)
+## Overview
+This submission presents a customized, data-driven version of the **Mazer Admin Dashboard** (Bootstrap 5). The codebase has been enhanced with modern SCSS styling tokens, glassmorphism visual design, micro-animations, and dynamic frontend components that fetch and render real-time data from JSON API endpoints using ES6 JavaScript.
 
-<p align="center">Mazer is an Admin Dashboard Template that can help you develop faster. Made with Bootstrap 5. No jQuery dependency.</p>
-<div align="center">
+---
 
-[![All Contributors](https://img.shields.io/github/contributors/zuramai/mazer)](https://github.com/zuramai/mazer/graphs/contributors)
-![GitHub last commit](https://img.shields.io/github/last-commit/zuramai/mazer.svg)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/zuramai/mazer)
-[![License](https://img.shields.io/github/license/zuramai/mazer.svg)](LICENSE)
+## 🎨 Summary of Changes Made
 
-</div>
+### 1. SCSS & Design System Advancements
+* **Modern Design Tokens & CSS Variables**: Defined custom CSS variables for primary indigo/violet themes (`#6366f1`), vibrant gradients, dark mode color mapping, and elevation shadows (`_custom-advancements.scss`).
+* **Glassmorphic UI**: Created reusable `.glass-card` classes utilizing `backdrop-filter: blur(12px)` and subtle translucent borders for a state-of-the-art aesthetic.
+* **Micro-Animations & Interactive Hover States**:
+  * Smooth card lift effects (`transform: translateY(-3px)`).
+  * Animated icon badges with rotation on hover.
+  * Live status indicator pulse ring (`@keyframes pulse-ring`).
+  * Skeleton loader shimmer effects (`@keyframes shimmer`).
+* **Dark & Light Mode Integration**: Integrated custom advancements into both light mode (`app.scss`) and dark mode (`app-dark.scss`) without breaking Bootstrap 5 component standards.
 
-<p align="center">
-	<a href="http://zuramai.github.io/mazer/demo">Demo Page</a>&nbsp;&nbsp;&nbsp;
-	<a href="http://zuramai.github.io/mazer/docs">Documentation Page</a>&nbsp;&nbsp;&nbsp;
-	<a href="https://github.com/zuramai/mazer/blob/main/README_INDONESIAN.md">Indonesian README</a>&nbsp;&nbsp;&nbsp;
-</p>
+### 2. Layout & UI Component Enhancements
+* **Interactive Dashboard Header Toolbar**: Added live endpoint sync status badge, timeframe selector dropdown (Monthly/Weekly/Daily), and an asynchronous **Refresh Endpoint** action button.
+* **Dynamic Statistics Cards**: Updated metric displays (Profile Views, Followers, Following, Saved Posts, Revenue) to bind dynamically with incoming JSON data streams.
+* **Recent Transactions Table**: Implemented a modern rounded table with customer avatars, payment descriptions, status pill badges, and code tags.
 
+---
 
-## Installation
+## 📡 How Data is Fetched from Endpoint JSON
 
-### Using a ready-made built (recommended)
+Data binding and asynchronous fetching are handled by `src/assets/static/js/pages/dynamic-dashboard.js` using native ES6 `async/await` and the `fetch` API.
 
-Download the latest release from the [releases page](https://github.com/zuramai/mazer/releases "releases page").
-Open the index HTML file and explore the source code.
+### 1. Mock JSON Endpoints Defined
+* `assets/static/api/dashboard-summary.json`: Contains metric key-values, percentage trends, and system health status.
+* `assets/static/api/transactions.json`: Contains structured array of transaction items (Customer name, avatar, amount, transaction ID, date, status).
+* `assets/static/api/analytics.json`: Contains time-series datasets grouped by timeframe (`monthly`, `weekly`, `daily`) for chart rendering.
 
-### Building yourself
+### 2. Fetch & Render Logic (`dynamic-dashboard.js`)
 
-1. Clone the repository 
-```sh
-git clone https://github.com/zuramai/mazer
+```javascript
+// Example: Asynchronously fetching dashboard summary metrics
+async function loadDashboardMetrics() {
+  try {
+    const res = await fetch('assets/static/api/dashboard-summary.json');
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    const data = await res.json();
+
+    if (data.metrics) {
+      updateMetricElement('val-profile-views', data.metrics.profile_views.value);
+      updateMetricElement('val-followers', data.metrics.followers.value);
+      updateMetricElement('val-revenue', data.metrics.monthly_revenue.value);
+      updateBadgeElement('badge-profile-trend', data.metrics.profile_views.change, data.metrics.profile_views.trend);
+    }
+  } catch (err) {
+    console.error('Failed to load metrics:', err);
+  }
+}
+
+// Example: Dynamic transaction table rendering
+async function loadTransactions() {
+  const tbody = document.getElementById('table-transactions-body');
+  try {
+    const res = await fetch('assets/static/api/transactions.json');
+    const transactions = await res.json();
+
+    tbody.innerHTML = transactions.map(txn => `
+      <tr>
+        <td class="align-middle">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar-md me-3">
+              <img src="${txn.avatar}" alt="${txn.customer}" class="rounded-circle">
+            </div>
+            <div>
+              <h6 class="mb-0 text-bold">${txn.customer}</h6>
+              <small class="text-muted">${txn.user}</small>
+            </div>
+          </div>
+        </td>
+        <td class="align-middle"><code class="text-primary">${txn.id}</code></td>
+        <td class="align-middle text-muted small">${txn.date}</td>
+        <td class="align-middle font-extrabold">${txn.amount}</td>
+        <td class="align-middle">
+          <span class="badge ${txn.badge_class} badge-pill-custom">${txn.status}</span>
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    console.error('Failed to load transactions:', err);
+  }
+}
 ```
 
-2. Install dependencies
-```sh
-yarn install
-# OR
-npm install
+### 3. Dynamic Chart Re-Rendering & Timeframe Filtering
+* When the user changes the timeframe dropdown (Monthly / Weekly / Daily), `loadAnalyticsChart(selectedTimeframe)` is invoked.
+* It fetches `analytics.json`, selects the target dataset, and calls `visitsChart.updateOptions(...)` to seamlessly animate ApexCharts without full page reload.
+
+---
+
+## 🚀 Setup & Local Execution Instructions
+
+### Prerequisites
+* Node.js (v16+ recommended)
+* npm or yarn
+
+### Steps to Run
+1. **Clone the repository**:
+   ```bash
+   git clone <your-forked-repo-url>
+   cd mazer
+   ```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Start the local development server**:
+   ```bash
+   npm run dev
+   ```
+4. **Open in browser**:
+   Navigate to `http://localhost:5173` to explore the customized dashboard.
+
+---
+
+## 📁 Repository Structure Overview
 ```
-
-3. Run it locally
-```sh
-npm run dev
+mazer/
+├── src/
+│   ├── assets/
+│   │   ├── scss/
+│   │   │   ├── _custom-advancements.scss    # Custom SCSS tokens, glassmorphism & micro-animations
+│   │   │   ├── app.scss                     # Main SCSS entrypoint
+│   │   │   └── themes/dark/app-dark.scss    # Dark mode theme entrypoint
+│   │   └── static/
+│   │       ├── api/                         # Endpoint JSON payloads
+│   │       │   ├── dashboard-summary.json
+│   │       │   ├── transactions.json
+│   │       │   └── analytics.json
+│   │       └── js/pages/
+│   │           └── dynamic-dashboard.js     # Asynchronous fetch & component renderer
+│   └── index.html                           # Updated dashboard layout & component containers
+├── README.md                                # Submission README & documentation
+└── package.json
 ```
-
-4. Open `http://localhost:5173` in your browser
-
-### Building with Docker
-
-- Clone the repository `git clone https://github.com/zuramai/mazer`
-- Make sure you have Docker installed and run:
-    - `docker build -t mazer-frontend .`
-    - `docker run -it -d -p 5173:80 --name mazer mazer-frontend`
-    - Open `http://localhost:5173`
-### Using CDN 
-Simple example using CDN from [jsdelivr.net](https://www.jsdelivr.com/).
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
-
-    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/svg/favicon.svg" type="image/x-icon">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/app.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/app-dark.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/iconly.css">
-</head>
-
-<body>
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/static/js/initTheme.js"></script>
-    <!-- Start content here -->
-
-    <!-- End content -->
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/static/js/components/dark.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/js/app.js"></script>
-
-    <!-- Need: Apexcharts -->
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/extensions/apexcharts/apexcharts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/static/js/pages/dashboard.js"></script>
-</body>
-
-</html>
-```
-
-#### CDN Prefix
-
-You can use the url with a prefix like this:
-```
-https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo
-```
-
-A simple example:
-```
-https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/app.css
-```
-
-## Community Mazer-based open sources
-
-- [CodeIgniter 4](https://github.com/irsyadulibad/mazer-codeigniter) by [@irsyadulibad](https://github.com/irsyadulibad)
-- [Laravel Mazer Starter](https://github.com/billalxcode/laravel-mazer-starter) by [@billalxcode](https://github.com/billalxcode)
-- [Nuxt](https://github.com/fzn0x/mazer-nuxt) by [@fzn0x](https://github.com/fzn0x)
-- [React JS Component Library](https://github.com/fachryansyah/react-mazer-ui) by [@fachryansyah](https://github.com/fachryansyah/)
-- [Adonisjs 5](https://github.com/afman42/mazer-adonisjs) by [@afman42](https://github.com/afman42/)
-- [Django](https://github.com/bimbims125/mazer-django) by [@bimbims125](https://github.com/bimbims125/)
-- [Flask](https://github.com/antheiz/mazer-flask) by [@antheiz](https://github.com/antheiz/)
-- [Symfony 6.3 (Mazer 2.1.0)](https://github.com/TheoD02/mazer-symfony-6.3/tree/mazer-2.1.0) by [@theod02](ttps://github.com/TheoD02)
-- [Spring-Thymeleaf](https://github.com/deyhay-enterprise/spring-project-mazer-template) by [@hi-rullah](https://github.com/hi-rullah)
-- [Ruby on Rails](https://github.com/noesya/mazer-rails) by [@noesya](https://github.com/noesya)
-- [Yii2](https://github.com/anovsiradj/yii2-theme-mazer) by [@anovsiradj](https://github.com/anovsiradj)
-- [Next JS](https://github.com/dipras/next-mazer) by [@dipras](https://github.com/dipras)
-- Did you make in another framework or tools? Open up Pull Requests and put yours here! 😃
-
-## Contributing
-
-Please follow [Contributing Guide](./CONTRIBUTING.md) before contributing.
-
-## License
-
-Mazer is under [MIT License](./LICENSE).
-
-## Author
-
-Mazer is created by <a href="https://saugi.me">Saugi</a>.
-
-## Sponsors
-
-![zuramai's sponsors](https://raw.githubusercontent.com/zuramai/static/main/sponsors.svg)
